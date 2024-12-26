@@ -10,8 +10,33 @@ import './styles.css';
 function CheckoutExercise() {
   const [items, dispatch] = React.useReducer(
     reducer,
-    []
+    null
   );
+
+  React.useEffect(() => {
+    const checkout = localStorage.getItem('checkout');
+    const jsonCheckout = JSON.parse(checkout);
+
+    const arrayCheckout = jsonCheckout.map((item) => {
+      const dataItem = DATA.find(({id}) => {
+        return item.id === id;
+      });
+      dataItem.quantity = item.quantity;
+      return dataItem;
+    })
+
+    const items = arrayCheckout === null ? [] : arrayCheckout;
+    dispatch({type: 'load-item', items});
+  }, []);
+
+  React.useEffect(() => {
+    if(items !== null) {
+      const jsonItems = JSON.stringify(items.map(item => {
+        return {id: item.id, quantity: item.quantity}
+      }));
+      window.localStorage.setItem('checkout', jsonItems);
+    }
+  }, [items]);
 
   return (
     <>

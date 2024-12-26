@@ -1,4 +1,4 @@
-import { produce } from 'immer';
+import {produce} from 'immer';
 
 function reducer(state, action) {
   return produce(state, (draftState) => {
@@ -27,6 +27,10 @@ function reducer(state, action) {
 
         draftState.splice(itemIndex, 1);
         return;
+      }
+
+      case 'load-item': {
+        return action.items;
       }
     }
   });
