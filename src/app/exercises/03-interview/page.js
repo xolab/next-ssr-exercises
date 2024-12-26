@@ -6,14 +6,20 @@ import Interview from './Interview';
 import './styles.css';
 
 function InterviewExercise() {
+  const [mode, setMode] = React.useState(null);
+
   const isDesktop = useMediaQuery({
     query: '(min-width: 500px)',
   });
 
+  React.useEffect(() => {
+    setMode(isDesktop);
+  }, [isDesktop])
+
   return (
     <main>
       <Interview />
-      {isDesktop && (
+      {mode && (
         <aside>
           <img
             src="/gwen-artist.png"
